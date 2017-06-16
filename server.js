@@ -10,7 +10,7 @@ var mongoose = require("mongoose");
 // Requiring our Note and Article models
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
-// Our scraping tools
+// Our scrapiarng tools
 var request = require("request");
 var cheerio = require("cheerio");
 // Set mongoose to leverage built in JavaScript ES6 Promises
@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/week18day3mongoose");
+mongoose.connect("mongodb://heroku_blsxnzz8:nvu0d8ucjun3rb1dpju07nedjs@ds127962.mlab.com:27962/heroku_blsxnzz8");
 var db = mongoose.connection;
 
 // Show any mongoose errors
