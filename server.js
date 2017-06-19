@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://heroku_blsxnzz8:nvu0d8ucjun3rb1dpju07nedjs@ds127962.mlab.com:27962/heroku_blsxnzz8");
+mongoose.connect("mongodb://localhost/newscraper");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -46,6 +46,11 @@ db.once("open", function() {
 
 // Routes
 // ======
+
+app.get("/", function(req, res) {
+    // Tell the browser that we finished scraping the text
+    res.send("index");
+});
 
 // A GET request to scrape the echojs website
 app.get("/scrape", function(req, res) {
@@ -148,6 +153,42 @@ app.post("/articles/:id", function(req, res) {
       });
     }
   });
+});
+
+// Delete Article from the DB
+app.get("/deletearticle/:id", function(req, res) {
+    // Remove an article using the objectID
+    Article.remove({ "_id": req.params.id})
+    // Execute the above query
+        .exec(function(err, doc) {
+            // Log any errors
+            if (err) {
+                console.log(err);
+            }
+            else {
+                // Or send the document to the browser
+                res.send(doc);
+
+            }
+        });
+});
+
+// Delete Note from the DB
+app.get("/deletenote/:id", function(req, res) {
+    // Remove a note using the objectID
+    Article.find({ "_id": req.params.id }
+    // Execute the above query
+        .exec(function(err, doc) {
+            // Log any errors
+            if (err) {
+                console.log(err);
+            }
+            else {
+                // Or send the document to the browser
+                console.log(doc);
+                res.send(doc);
+            }
+        }));
 });
 
 
