@@ -173,10 +173,9 @@ app.get("/deletearticle/:id", function(req, res) {
         });
 });
 
-// Delete Note from the DB
 app.get("/deletenote/:id", function(req, res) {
     // Remove a note using the objectID
-    Article.find({ "_id": req.params.id }
+    Article.remove({ "_id": req.params.id }
     // Execute the above query
         .exec(function(err, doc) {
             // Log any errors
@@ -190,6 +189,24 @@ app.get("/deletenote/:id", function(req, res) {
             }
         }));
 });
+
+// Delete Note from the DB
+// app.get("/deletenote/:id", function(req, res) {
+//     // Remove a note using the objectID
+//     Note.remove({ "_id": req.params.id }
+//     // Execute the above query
+//         .exec(function(err, doc) {
+//             // Log any errors
+//             if (err) {
+//                 console.log(err);
+//             }
+//             else {
+//                 // Or send the document to the browser
+//                 console.log(doc);
+//                 res.send(doc);
+//             }
+//         }));
+// });
 
 
 // Listen on port 3000
