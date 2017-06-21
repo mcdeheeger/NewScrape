@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/newscraper");
+mongoose.connect("mongodb://heroku_blsxnzz8:nvu0d8ucjun3rb1dpju07nedjs@ds127962.mlab.com:27962/heroku_blsxnzz8");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -55,11 +55,11 @@ app.get("/", function(req, res) {
 // A GET request to scrape the echojs website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
-  request("http://www.echojs.com/", function(error, response, html) {
+  request("http://www.sierraclub.org/popular/", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
     // Now, we grab every h2 within an article tag, and do the following:
-    $("article h2").each(function(i, element) {
+    $("span.field-content").each(function(i, element) {
 
       // Save an empty result object
       var result = {};
@@ -92,7 +92,7 @@ app.get("/scrape", function(req, res) {
 
 // This will get the articles we scraped from the mongoDB
 app.get("/articles", function(req, res) {
-  // Grab every doc in the Articles array
+  // Grab  every doc in the Articles array
   Article.find({}, function(error, doc) {
     // Log any errors
     if (error) {
@@ -173,40 +173,46 @@ app.get("/deletearticle/:id", function(req, res) {
         });
 });
 
-app.get("/deletenote/:id", function(req, res) {
-    // Remove a note using the objectID
-    Article.remove({ "_id": req.params.id }
-    // Execute the above query
-        .exec(function(err, doc) {
-            // Log any errors
-            if (err) {
-                console.log(err);
-            }
-            else {
-                // Or send the document to the browser
-                console.log(doc);
-                res.send(doc);
-            }
-        }));
-});
-
 // Delete Note from the DB
-// app.get("/deletenote/:id", function(req, res) {
-//     // Remove a note using the objectID
-//     Note.remove({ "_id": req.params.id }
-//     // Execute the above query
-//         .exec(function(err, doc) {
-//             // Log any errors
-//             if (err) {
-//                 console.log(err);
-//             }
-//             else {
-//                 // Or send the document to the browser
-//                 console.log(doc);
-//                 res.send(doc);
-//             }
-//         }));
-// });
+app.get("/deletenote/:id", function(req, res) {
+
+    // Create a new note and pass the req.body to the entry
+    var newNote = new Note(req.body);
+
+    // And save the new note the db
+    newNote.save(function(error, doc) {
+        // Log any errors
+        if (error) {
+            console.log(error);
+        }
+        // Otherwise
+        else {
+            // Use the article id to find and update it's note
+            Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
+            // Execute the above query
+                .exec(function(err, doc) {
+                    // Log any errors
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        // Or send the document to the browser
+                        Note.remove({ "_id": doc._id }, function(err, doc) {
+                            // Log any errors
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                // Or send the document to the browser
+                                console.log(doc);
+                                res.send(doc);
+                            }
+                        });
+                    }
+                });
+        }
+    });
+});
 
 
 // Listen on port 3000
