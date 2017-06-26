@@ -32,18 +32,21 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://heroku_blsxnzz8:nvu0d8ucjun3rb1dpju07nedjs@ds127962.mlab.com:27962/heroku_blsxnzz8");
-var db = mongoose.connection;
+MONGODB_URI = "mongodb://heroku_blsxnzz8:nvu0d8ucjun3rb1dpju07nedjs@ds127962.mlab.com:27962/heroku_blsxnzz8";
+var db = process.env.MONGODB_URI || "mongodb://localhost/newscraper";
 
-// Show any mongoose errors
-db.on("error", function(error) {
-  console.log("Mongoose Error: ", error);
+mongoose.connect(db, function(error) {
+    // Log any errors connecting with mongoose
+    if (error) {
+        console.log(error);
+    }
+    // Or log a success message
+    else {
+        console.log("mongoose connection is successful");
+    }
 });
 
-// Once logged in to the db through mongoose, log a success message
-db.once("open", function() {
-  console.log("Mongoose connection successful.");
-});
+
 
 // Routes
 // ======
