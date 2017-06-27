@@ -35,7 +35,7 @@ app.use(express.static("public"));
 var db = process.env.MONGODB_URI || "mongodb://localhost/newscraper";
 
 // Connect mongoose to our database
-mongoose.connect("mongodb://heroku_jpwlxvp0:b7qaqvesncsij876g1703t3kav@ds139362.mlab.com:39362/heroku_jpwlxvp0", function(error) {
+mongoose.connect("mongodb://heroku_4c2c6z8v:fg9a2jk09foojjsd58ivhvokvf@ds139262.mlab.com:39262/heroku_4c2c6z8v", function(error) {
     // Log any errors connecting with mongoose
     if (error) {
         console.log(error);
