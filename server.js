@@ -234,5 +234,5 @@ app.get("/deletenote/:id", function(req, res) {
 
 // Listen on port 3000
 app.listen(PORT, function() {
-  console.log("App running on port 3000!");
+  console.log("App running on " + PORT);
 });
