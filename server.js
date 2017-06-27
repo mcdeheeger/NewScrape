@@ -1,3 +1,6 @@
+#!/usr/local/bin/node
+
+
 /* Showing Mongoose's "Populated" Method (18.3.8)
  * INSTRUCTOR ONLY
  * =============================================== */
