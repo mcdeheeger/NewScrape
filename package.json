@@ -1,14 +1,18 @@
 {
   "name": "newscrape",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "newscrape web scraper",
+  "main": "public/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
-  "license": "ISC",
+  "keywords":[
+    "example",
+    "heroku"
+  ],
+  "author": "Marc Deheeger",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.0",
     "cheerio": "^0.20.0",
